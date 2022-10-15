@@ -10,20 +10,20 @@ router = APIRouter()
 
 
 @router.post("/feed", response_model=feed_schema.FeedCreateResponse)
-async def create_feed(feed: feed_schema.FeedCreate, db: AsyncSession = Depends(get_db)):
-    rss_urls: list[str] = await extract_rss(feed.base_url)
+async def create_feed(url: str, db: AsyncSession = Depends(get_db)):
+    rss_urls: list[str] = await extract_rss(url)
     if rss_urls == []:
         raise HTTPException(status_code=400, detail="RSS not found or some error occurred.")
     else:
         # TODO:今のところ複数RSSがあった場合どうしようもないので要再検討
-        feed.url = rss_urls[0]
+        feed = feed_schema.FeedCreate(url=rss_urls[0])
         print(feed.url)
         return await feed_crud.create_feed(db, feed)
 
 
 @router.get("/feed", response_model=list[feed_schema.Feed])
 async def list_feed():
-    return [feed_schema.Feed(id=1, base_url="https://example.com", url="https://example.com/rss")]
+    return [feed_schema.Feed(id=1, url="https://example.com/rss")]
 
 
 @router.delete("/feed/{feed_id}", response_model=None)

@@ -2,11 +2,11 @@ from pydantic import BaseModel, Field
 
 
 class FeedBase(BaseModel):
-    base_url: str
+    url: str
 
 
 class FeedCreate(FeedBase):
-    url: str
+    pass
 
 
 class FeedCreateResponse(FeedCreate):
@@ -18,4 +18,3 @@ class FeedCreateResponse(FeedCreate):
 
 class Feed(FeedBase):
     id: int = Field(..., description="Feed ID")
-    url: str
