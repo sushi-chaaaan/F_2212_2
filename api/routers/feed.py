@@ -11,14 +11,13 @@ router = APIRouter()
 
 @router.post("/feed", response_model=feed_schema.FeedCreateResponse)
 async def create_feed(feed: feed_schema.FeedCreate, db: AsyncSession = Depends(get_db)):
-    rss = await extract_rss(feed.base_url)
-    if rss == []:
+    rss_urls: list[str] = await extract_rss(feed.base_url)
+    if rss_urls == []:
         raise HTTPException(status_code=400, detail="RSS not found or some error occurred.")
     else:
         # TODO:今のところ複数RSSがあった場合どうしようもないので要再検討
-        feed.rss_url = rss[0]
+        feed.rss_url = rss_urls[0]
         print(feed.rss_url)
-        print(rss[0])
         return await feed_crud.create_feed(db, feed)
 
 
