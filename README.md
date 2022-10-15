@@ -8,3 +8,16 @@ BranchProtectionRUle導入済み
 ```python 
 poetry install
 ```
+
+docker composeも必要
+
+開発環境の起動
+```bash
+poe up
+```
+
+終了
+```bash
+# FastAPIはCtrl+C
+docker compose down
+```
