@@ -3,5 +3,6 @@
         "fastapi",
         "pydantic",
         "uvicorn"
-    ]
+    ],
+    "python.linting.flake8Path": "venv/bin/pflake8",
 }
