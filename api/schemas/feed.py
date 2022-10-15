@@ -13,7 +13,7 @@ class FeedCreate(FeedBase):
 class FeedCreateResponse(FeedCreate):
     id: int
 
-    class config:
+    class Config:
         orm_mode = True
 
 
