@@ -2,6 +2,9 @@
     "cSpell.words": [
         "fastapi",
         "pydantic",
+        "pymysql",
+        "sessionmaker",
+        "sqlalchemy",
         "uvicorn"
     ],
     "python.linting.flake8Path": "venv/bin/pflake8",

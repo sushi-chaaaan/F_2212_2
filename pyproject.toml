@@ -12,6 +12,8 @@ fastapi = "^0.85.0"
 uvicorn = "^0.18.3"
 beautifulsoup4 = "^4.11.1"
 aiohttp = "^3.8.3"
+SQLAlchemy = "^1.4.41"
+aiomysql = "^0.1.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
@@ -35,7 +37,7 @@ lint = { sequence = ["lint:flake8", "lint:isort", "lint:mypy"] }
 "lint:flake8" = "poetry run pflake8 ."
 "lint:isort" = "poetry run isort -c ."
 "lint:mypy" = "poetry run mypy ."
-"mypy_setup" = "mypy --install-types --non-interactive"
+"setup_mypy" = "mypy --install-types --non-interactive"
 
 # format
 format = { sequence = ["format:black", "format:isort"] }
@@ -45,6 +47,7 @@ format = { sequence = ["format:black", "format:isort"] }
 load-venv = { shell = ". .venv/bin/activate" }
 up-api-server = { script = "api.main:main" }
 up-mysql-in-docker = { shell = "sudo docker compose up --build -d" }
+migrate-mysql-in-docker = { shell = "poetry run python -m api.migrate_db" }
 up = { sequence = ["load-venv","up-mysql-in-docker", "up-api-server"] }
 
 [build-system]
