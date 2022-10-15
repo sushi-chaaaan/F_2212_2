@@ -6,8 +6,7 @@ class FeedBase(BaseModel):
 
 
 class FeedCreate(FeedBase):
-    rss_url: str | None = Field(None, example="https://example.com/rss")
-    pass
+    url: str
 
 
 class FeedCreateResponse(FeedCreate):
@@ -19,4 +18,4 @@ class FeedCreateResponse(FeedCreate):
 
 class Feed(FeedBase):
     id: int = Field(..., description="Feed ID")
-    rss_url: str
+    url: str
