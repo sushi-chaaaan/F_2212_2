@@ -17,13 +17,18 @@ async def create_feed(url: str, db: AsyncSession = Depends(get_db)):
     else:
         # TODO:今のところ複数RSSがあった場合どうしようもないので要再検討
         feed = feed_schema.FeedCreate(url=rss_urls[0])
-        print(feed.url)
+        # print(feed.url)
         return await feed_crud.create_feed(db, feed)
 
 
 @router.get("/feed", response_model=list[feed_schema.Feed])
-async def list_feed():
+async def get_all_feeds():
     return [feed_schema.Feed(id=1, url="https://example.com/rss")]
+
+
+@router.get("/feed/{feed_id}", response_model=feed_schema.Feed)
+async def get_single_feed(feed_id: int):
+    return feed_schema.Feed(id=feed_id, url="https://example.com/rss")
 
 
 @router.delete("/feed/{feed_id}", response_model=None)
