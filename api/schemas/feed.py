@@ -28,5 +28,10 @@ class UpdatedFeedBase(Feed):
         orm_mode = True
 
 
+class Article(BaseModel):
+    article_url: AnyUrl = Field(..., description="Article URL")
+    article_title: str = Field(..., description="Article title")
+
+
 class UpdatedFeedResponse(UpdatedFeedBase):
-    article_url: list[AnyUrl] = Field(..., description="Article URL list")
+    articles: list[Article] = Field(..., description="List of new articles")

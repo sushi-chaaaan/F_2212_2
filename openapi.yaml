@@ -1,5 +1,23 @@
 components:
   schemas:
+    Article:
+      properties:
+        article_title:
+          description: Article title
+          title: Article Title
+          type: string
+        article_url:
+          description: Article URL
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          title: Article Url
+          type: string
+      required:
+      - article_url
+      - article_title
+      title: Article
+      type: object
     Feed:
       properties:
         id:
@@ -13,8 +31,8 @@ components:
           title: Rss Url
           type: string
       required:
-        - rss_url
-        - id
+      - rss_url
+      - id
       title: Feed
       type: object
     FeedCreateResponse:
@@ -36,30 +54,27 @@ components:
           title: Rss Url
           type: string
       required:
-        - rss_url
-        - latest_article_url
-        - id
+      - rss_url
+      - latest_article_url
+      - id
       title: FeedCreateResponse
       type: object
     HTTPValidationError:
       properties:
         detail:
           items:
-            $ref: "#/components/schemas/ValidationError"
+            $ref: '#/components/schemas/ValidationError'
           title: Detail
           type: array
       title: HTTPValidationError
       type: object
     UpdatedFeedResponse:
       properties:
-        article_url:
-          description: Article URL list
+        articles:
+          description: List of new articles
           items:
-            format: uri
-            maxLength: 65536
-            minLength: 1
-            type: string
-          title: Article Url
+            $ref: '#/components/schemas/Article'
+          title: Articles
           type: array
         id:
           description: Feed ID
@@ -72,9 +87,9 @@ components:
           title: Rss Url
           type: string
       required:
-        - rss_url
-        - id
-        - article_url
+      - rss_url
+      - id
+      - articles
       title: UpdatedFeedResponse
       type: object
     ValidationError:
@@ -82,8 +97,8 @@ components:
         loc:
           items:
             anyOf:
-              - type: string
-              - type: integer
+            - type: string
+            - type: integer
           title: Location
           type: array
         msg:
@@ -93,9 +108,9 @@ components:
           title: Error Type
           type: string
       required:
-        - loc
-        - msg
-        - type
+      - loc
+      - msg
+      - type
       title: ValidationError
       type: object
 info:
@@ -107,7 +122,7 @@ paths:
     get:
       operationId: root__get
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema: {}
@@ -117,12 +132,12 @@ paths:
     get:
       operationId: get_all_feeds_feed_get
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 items:
-                  $ref: "#/components/schemas/Feed"
+                  $ref: '#/components/schemas/Feed'
                 title: Response Get All Feeds Feed Get
                 type: array
           description: Successful Response
@@ -130,77 +145,77 @@ paths:
     post:
       operationId: create_feed_feed_post
       parameters:
-        - in: query
-          name: url
-          required: true
-          schema:
-            title: Url
-            type: string
+      - in: query
+        name: url
+        required: true
+        schema:
+          title: Url
+          type: string
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FeedCreateResponse"
+                $ref: '#/components/schemas/FeedCreateResponse'
           description: Successful Response
-        "422":
+        '422':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HTTPValidationError"
+                $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Create Feed
   /feed/{feed_id}:
     delete:
       operationId: delete_feed_feed__feed_id__delete
       parameters:
-        - in: path
-          name: feed_id
-          required: true
-          schema:
-            title: Feed Id
-            type: integer
+      - in: path
+        name: feed_id
+        required: true
+        schema:
+          title: Feed Id
+          type: integer
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema: {}
           description: Successful Response
-        "422":
+        '422':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HTTPValidationError"
+                $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Delete Feed
     get:
       operationId: get_single_feed_feed__feed_id__get
       parameters:
-        - in: path
-          name: feed_id
-          required: true
-          schema:
-            title: Feed Id
-            type: integer
+      - in: path
+        name: feed_id
+        required: true
+        schema:
+          title: Feed Id
+          type: integer
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Feed"
+                $ref: '#/components/schemas/Feed'
           description: Successful Response
-        "422":
+        '422':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HTTPValidationError"
+                $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Get Single Feed
   /hello:
     get:
       operationId: hello_hello_get
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema: {}
@@ -210,12 +225,12 @@ paths:
     get:
       operationId: return_update_feed_update_get
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 items:
-                  $ref: "#/components/schemas/UpdatedFeedResponse"
+                  $ref: '#/components/schemas/UpdatedFeedResponse'
                 title: Response Return Update Feed Update Get
                 type: array
           description: Successful Response
