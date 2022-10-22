@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, AnyUrl
+from pydantic import AnyUrl, BaseModel, Field
 
 
 class FeedBase(BaseModel):
