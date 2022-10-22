@@ -14,16 +14,23 @@ router = APIRouter()
 @router.post("/feed", response_model=feed_schema.FeedCreateResponse)
 async def create_feed(url: str, db: AsyncSession = Depends(get_db)):
     # FIXME: RSSのURLを直接投げられると死ぬ致命的な欠点がある
-    rss_urls: list[str] = await extract_rss(url)
-    if rss_urls == []:
-        raise HTTPException(status_code=400, detail="RSS not found or some error occurred.")
+    # 直したけどこれでいいのか？
+    # TODO: 重複している場合登録しない処理を作りたかったが間に合わない
+
+    if url.endswith(".rdf"):
+        # .rdfの場合は、RSSのURLだと推定する。正直危険
+        _url = url
     else:
-        # TODO: 今のところ複数RSSがあった場合どうしようもないので要再検討
-        _url = rss_urls[0]
-        _latest_article_url = get_latest_article_url(_url)
-        feed = feed_schema.FeedCreate(rss_url=_url, latest_article_url=_latest_article_url)  # type: ignore
-        # print(feed.url)
-        return await feed_crud.create_feed(db, feed)
+        rss_urls: list[str] = await extract_rss(url)
+        if rss_urls == []:
+            raise HTTPException(status_code=400, detail="RSS not found or some error occurred.")
+        else:
+            # FIXME: 複数RSSがあった場合どうしようもない
+            _url = rss_urls[0]
+    _latest_article_url = get_latest_article_url(_url)
+    feed = feed_schema.FeedCreate(rss_url=_url, latest_article_url=_latest_article_url)  # type: ignore
+    # print(feed.url)
+    return await feed_crud.create_feed(db, feed)
 
 
 @router.get("/feed", response_model=list[feed_schema.Feed])

@@ -15,6 +15,7 @@ aiohttp = "^3.8.3"
 SQLAlchemy = {extras = ["mypy"], version = "^1.4.41"}
 aiomysql = "^0.1.1"
 feedparser = "^6.0.10"
+lxml = "^4.9.1"
 
 
 [tool.poetry.group.dev.dependencies]
