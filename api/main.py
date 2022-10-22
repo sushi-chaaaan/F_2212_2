@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 
-from api.routers import feed, update
+from api.routers import feed
 
 app = FastAPI()
 app.include_router(feed.router)
-app.include_router(update.router)
 
 
 @app.get("/")

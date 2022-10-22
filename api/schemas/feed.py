@@ -1,12 +1,12 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, AnyUrl
 
 
 class FeedBase(BaseModel):
-    url: str
+    rss_url: AnyUrl
 
 
 class FeedCreate(FeedBase):
-    pass
+    latest_article_url: AnyUrl = Field(..., description="The latest article url of the feed")
 
 
 class FeedCreateResponse(FeedCreate):
@@ -18,3 +18,15 @@ class FeedCreateResponse(FeedCreate):
 
 class Feed(FeedBase):
     id: int = Field(..., description="Feed ID")
+
+    class Config:
+        orm_mode = True
+
+
+class UpdatedFeedBase(Feed):
+    class Config:
+        orm_mode = True
+
+
+class UpdatedFeedResponse(UpdatedFeedBase):
+    article_url: list[AnyUrl] = Field(..., description="Article URL list")
