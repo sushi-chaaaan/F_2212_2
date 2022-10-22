@@ -3,7 +3,6 @@ services:
   fastapi:
     build: .
     volumes:
-      - .dockervenv:/src/.venv
       - .:/src
     ports:
       - 8000:8000
