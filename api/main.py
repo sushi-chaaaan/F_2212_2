@@ -16,10 +16,20 @@ async def hello():
     return {"message": "Hello World"}
 
 
+def export_yaml():
+    import yaml
+
+    openapi_schema = app.openapi()
+    with open("openapi.yaml", "w") as f:
+        yaml.dump(openapi_schema, f)
+
+
 def main():
     import uvicorn
 
-    uvicorn.run("api.main:app", host="127.0.0.1", port=8000, reload=True)
+    # export_yaml()
+
+    uvicorn.run("api.main:app", host="127.0.0.1", port=8000)
 
 
 if __name__ == "__main__":
