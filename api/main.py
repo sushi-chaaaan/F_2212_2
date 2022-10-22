@@ -27,7 +27,7 @@ def export_yaml():
 def main():
     import uvicorn
 
-    # export_yaml()
+    export_yaml()
 
     uvicorn.run("api.main:app", host="127.0.0.1", port=8000)
 

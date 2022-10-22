@@ -61,10 +61,11 @@ async def return_update_feed(db: AsyncSession = Depends(get_db)):
     # get all feeds
     feeds = await feed_crud.get_all_feeds(db)
 
-    new_articles: list[feed_schema.UpdatedFeedResponse] = []
+    updated_feed: list[feed_schema.UpdatedFeedResponse] = []
     for feed in feeds:
         new_entries = await parse_rss(rss_url=feed.rss_url, latest_article_url_before_update=feed.latest_article_url)  # type: ignore
-        response = feed_schema.UpdatedFeedResponse(rss_url=feed.rss_url, id=feed.id, article_url=[i.link for i in new_entries])  # type: ignore
-        new_articles.append(response)
-        await feed_crud.update_feed(db, latest_url=_new_entries[0].link, origin=feed)  # type: ignore
-    return new_articles
+        new_articles = [feed_schema.Article(article_url=entry.link, article_title=entry.title) for entry in new_entries]
+        response = feed_schema.UpdatedFeedResponse(rss_url=feed.rss_url, id=feed.id, articles=new_articles)  # type: ignore
+        updated_feed.append(response)
+        await feed_crud.update_feed(db, latest_url=new_entries[0].link, origin=feed)
+    return updated_feed
