@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 
 from api.models.feed import Feed
 
-DB_URL = "mysql+pymysql://root@localhost:33306/demo?charset=utf8"
+DB_URL = "mysql+pymysql://root@db:3306/demo?charset=utf8"
 engine = create_engine(DB_URL, echo=True)
 
 
