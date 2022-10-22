@@ -16,7 +16,6 @@ SQLAlchemy = {extras = ["mypy"], version = "^1.4.41"}
 aiomysql = "^0.1.1"
 feedparser = "^6.0.10"
 lxml = "^4.9.1"
-pyyaml = "^6.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -27,6 +26,7 @@ pyproject-flake8 = "^5.0.4.post1"
 flake8-isort = "^5.0.0"
 poethepoet = "^0.16.4"
 types-beautifulsoup4 = "^4.11.6"
+pyyaml = "^6.0"
 
 [tool.black]
 line-length = 120
