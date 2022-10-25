@@ -17,8 +17,8 @@ async def create_feed(url: str, db: AsyncSession = Depends(get_db)):
     # 直したけどこれでいいのか？
     # TODO: 重複している場合登録しない処理を作りたかったが間に合わない
 
-    if url.endswith(".rdf"):
-        # .rdfの場合は、RSSのURLだと推定する。正直危険
+    if url.endswith(".rdf") or url.endswith(".xml"):
+        # .rdf or .xmlの場合は、RSSのURLだと推定する。正直危険
         _url = url
     else:
         rss_urls: list[str] = await extract_rss(url)
